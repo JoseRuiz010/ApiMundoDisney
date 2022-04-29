@@ -2,30 +2,30 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database");
 const Pelicula = require("./Pelicula");
 
-const Personaje=sequelize.define('Personaje',{
-    nombre:{
+const Personaje = sequelize.define('Personaje', {
+    nombre: {
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull: false
     },
-    edad:{
-        type:DataTypes.INTEGER
+    edad: {
+        type: DataTypes.INTEGER
     },
-    peso:{
-        type:DataTypes.DOUBLE
+    peso: {
+        type: DataTypes.DOUBLE
     },
-    historia:{
-        type:DataTypes.STRING
+    historia: {
+        type: DataTypes.STRING
     },
-    imagen:{
+    imagen: {
 
-        type:DataTypes.STRING
+        type: DataTypes.STRING
     }
-},{
+}, {
     timestamps: true,
     createdAt: true,
     updatedAt: 'updateTimestamp'
-  })
+})
 
-  Personaje.belongsToMany(Pelicula, { through: 'Personaje_Pelicula' });
+Personaje.belongsToMany(Pelicula, { through: 'Personaje_Pelicula' });
 
-module.exports= Personaje
+module.exports = Personaje
