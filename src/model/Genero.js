@@ -1,23 +1,13 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database");
-const Pelicula = require("./Pelicula");
 
-const Personaje = sequelize.define('Personaje', {
+
+const Genero = sequelize.define('Personaje', {
     nombre: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    edad: {
-        type: DataTypes.INTEGER
-    },
-    peso: {
-        type: DataTypes.DOUBLE
-    },
-    historia: {
-        type: DataTypes.STRING
-    },
     imagen: {
-
         type: DataTypes.STRING
     }
 }, {
@@ -27,4 +17,4 @@ const Personaje = sequelize.define('Personaje', {
 })
 
 
-module.exports = Personaje
+module.exports = Genero

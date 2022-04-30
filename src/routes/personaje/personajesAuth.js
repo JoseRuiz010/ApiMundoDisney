@@ -1,9 +1,10 @@
 const { Personaje, Pelicula } = require('../../model/Modelos');
+const { validateToken } = require('../../Validar/ValidarToken');
 
 const route = require('express').Router();
 
 
-route.get('/characters', async (req, res) => {
+route.get('/characters', validateToken, async (req, res) => {
 
     const params = req.query
     if (!params) {
