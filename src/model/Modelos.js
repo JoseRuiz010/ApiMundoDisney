@@ -14,5 +14,5 @@ Pelicula.belongsToMany(Genero, { through: 'Genero_Pelicula' });
 module.exports = {
     Personaje,
     Pelicula,
-
+    Genero
 }

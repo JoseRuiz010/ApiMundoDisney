@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database");
 
 
-const Genero = sequelize.define('Personaje', {
+const Genero = sequelize.define('Genero', {
     nombre: {
         type: DataTypes.STRING,
         allowNull: false

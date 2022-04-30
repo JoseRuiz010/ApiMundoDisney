@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const authRoute = require('./routes/auth/authRoute');
 const personajeRoute = require('./routes/personaje/personajesAuth');
+const generoRoute = require('./routes/Genero/generoRoute');
+const peliculaRoute = require('./routes/Pelicula/peliculaRoute');
 
 
 const morgan = require('morgan');
@@ -22,6 +24,8 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use('/auth', authRoute)
 app.use(personajeRoute)
+app.use(peliculaRoute)
+app.use(generoRoute)
 
 
 

@@ -12,7 +12,7 @@ route.get('/characters', validateToken, async (req, res) => {
             include: Pelicula, attributes: ['nombre', 'imagen']
 
         })
-        res.json({ params, allPersonajes })
+        res.json({ allPersonajes })
     } else {
 
         const PersonajesFiltrados = await Personaje.findAll({
