@@ -4,7 +4,7 @@ const { validateToken } = require('../../Validar/ValidarToken');
 const route = require('express').Router();
 
 
-route.get('/movies', async (req, res) => {
+route.get('/movies', validateToken, async (req, res) => {
 
     const { order, IdGenero, Titulo } = req.query
 
@@ -41,7 +41,7 @@ route.get('/movies', async (req, res) => {
     }
 
 })
-route.get('/movies/:id', async (req, res) => {
+route.get('/movies/:id', validateToken, async (req, res) => {
 
     const { id } = req.params
     const pelicula = await Pelicula.findOne({ include: [{ model: Genero }, { model: Personaje }], where: { id: id } })
@@ -49,7 +49,7 @@ route.get('/movies/:id', async (req, res) => {
 })
 
 
-route.post('/movies', async (req, res) => {
+route.post('/movies', validateToken, async (req, res) => {
     const { Generos, Titulo, Calificacion, imagen } = req.body
     console.log(Generos);
     console.log('====================================');

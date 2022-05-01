@@ -5,7 +5,7 @@ const { validateToken } = require('../../Validar/ValidarToken');
 const route = require('express').Router();
 
 
-route.get('/genero', async (req, res) => {
+route.get('/genero', validateToken, async (req, res) => {
 
 
 
@@ -20,7 +20,7 @@ route.get('/genero', async (req, res) => {
 
 
 
-route.post('/genero', async (req, res) => {
+route.post('/genero', validateToken, async (req, res) => {
     const { nombre, imagen } = req.body
     if (!nombre || !imagen) return res.json({ mensaje: 'Debe ingresar todos los datos' })
     const newGenero = await Genero.create({ nombre, imagen });

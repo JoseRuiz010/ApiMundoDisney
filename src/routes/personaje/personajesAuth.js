@@ -24,7 +24,7 @@ route.get('/characters', validateToken, async (req, res) => {
     }
 
 })
-route.get('/characters/:id', async (req, res) => {
+route.get('/characters/:id', validateToken, async (req, res) => {
 
     const { id } = req.params
     const personaje = await Personaje.findAll({ include: Pelicula, where: { id: id } })
@@ -32,7 +32,7 @@ route.get('/characters/:id', async (req, res) => {
 })
 
 
-route.post('/characters', async (req, res) => {
+route.post('/characters', validateToken, async (req, res) => {
     const { Peliculas, nombre, edad, peso, historia, imagen } = req.body
     console.log(Peliculas);
     if (Peliculas?.length > 0) {
@@ -48,7 +48,7 @@ route.post('/characters', async (req, res) => {
 
 })
 
-route.put('/characters/:id', async (req, res) => {
+route.put('/characters/:id', validateToken, async (req, res) => {
     const { id } = req.params;
     const personaje = req.body
     // res.json({ id, personaje })
