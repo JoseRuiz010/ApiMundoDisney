@@ -1,12 +1,18 @@
+const Genero = require("./Genero");
 const Pelicula = require("./Pelicula");
 const Personaje = require("./Personaje");
 
 
-Pelicula.belongsToMany(Personaje, { through: 'Personaje_Pelicula' });
+
+Personaje.belongsToMany(Pelicula, { through: 'Personaje_Pelicula' });
 Pelicula.belongsToMany(Personaje, { through: 'Personaje_Pelicula' });
 
+Genero.belongsToMany(Pelicula, { through: 'Genero_Pelicula' });
+Pelicula.belongsToMany(Genero, { through: 'Genero_Pelicula' });
 
-module.exports={
+
+module.exports = {
     Personaje,
-    Pelicula
+    Pelicula,
+    Genero
 }

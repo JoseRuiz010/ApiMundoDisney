@@ -1,25 +1,26 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database/database");
-const Pelicula = require("./Pelicula");
 
-const Personaje = sequelize.define('Personaje', {
+
+const Usuario = sequelize.define('Usuario', {
     nombre: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    edad: {
-        type: DataTypes.INTEGER
+    dni: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
     },
-    peso: {
-        type: DataTypes.DOUBLE
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
     },
-    historia: {
+    password: {
         type: DataTypes.STRING
     },
-    imagen: {
 
-        type: DataTypes.STRING
-    }
 }, {
     timestamps: true,
     createdAt: true,
@@ -27,4 +28,4 @@ const Personaje = sequelize.define('Personaje', {
 })
 
 
-module.exports = Personaje
+module.exports = Usuario

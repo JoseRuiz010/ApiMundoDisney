@@ -1,54 +1,81 @@
-const {Personaje,Pelicula} = require('../../model/Modelos');
+const { Personaje, Pelicula } = require('../../model/Modelos');
+const { validateToken } = require('../../Validar/ValidarToken');
 
 const route = require('express').Router();
 
 
-route.get('/characters', async (req, res) => {
-    const allPersonajes=await Personaje.findAll({include:Pelicula})
-    res.json({ allPersonajes})
-})
-route.get('/characters/:id', (req, res) => {
-   const {id}= req.params
-    res.json({ personajes: { id: id } })
-})
+route.get('/characters', validateToken, async (req, res) => {
 
+    const params = req.query
+    if (!params) {
+        const allPersonajes = await Personaje.findAll({
+            include: Pelicula, attributes: ['nombre', 'imagen']
 
-route.post('/characters', async (req, res) => {
-    const {Peliculas,nombre,edad,pero,historia,imagen}=req.body
-   console.log(Peliculas);
-   const newPersonaje=await Personaje.create({nombre,edad,pero,historia,imagen,Peliculas:Peliculas.map(p=>{return{...p,	personaje_pelicula:{selfGranted: true}}})}, {include:Pelicula});
-//   const newPelicula=await Pelicula.create({});
-const allPersonajes=await Personaje.findAll({include:Pelicula})
-res.json({ allPersonajes})
-    // res.json({ ...newPersonaje })
+        })
+        res.json({ allPersonajes })
+    } else {
+
+        const PersonajesFiltrados = await Personaje.findAll({
+            include: Pelicula
+
+            , where: { ...params }
+        })
+        res.json({ params, PersonajesFiltrados })
+    }
+
 })
+route.get('/characters/:id', validateToken, async (req, res) => {
 
-route.put('/characters', (req, res) => {
-    const personaje=req.body
+    const { id } = req.params
+    const personaje = await Personaje.findAll({ include: Pelicula, where: { id: id } })
     res.json({ personaje })
 })
 
-route.delete('/characters/:id', (req, res) => {
-    const {id}= req.params
-    res.json({ personajeDelete: { id } })
+
+route.post('/characters', validateToken, async (req, res) => {
+    const { Peliculas, nombre, edad, peso, historia, imagen } = req.body
+    console.log(Peliculas);
+    if (Peliculas?.length > 0) {
+        const newPersonaje = await Personaje.create({ nombre, edad, peso, historia, imagen, Peliculas: Peliculas.map(p => { return { ...p, personaje_pelicula: { selfGranted: true } } }) }, { include: Pelicula });
+        //   const newPelicula=await Pelicula.create({});
+        const allPersonajes = await Personaje.findAll({ include: Pelicula })
+        res.json({ allPersonajes })
+    } else {
+        const newPersonaje = await Personaje.create({ nombre, edad, peso, historia, imagen });
+        res.json({ ...newPersonaje })
+
+    }
+
 })
 
-route.get('/characters/:name', (req, res) => {
-    const {name}= req.params
-     res.json({ personajes: { name } })
- })
+route.put('/characters/:id', validateToken, async (req, res) => {
+    const { id } = req.params;
+    const personaje = req.body
+    // res.json({ id, personaje })
+    const updatePersonaje = await Personaje.update(personaje, { where: { id: id } })
+    res.json({ updatePersonaje })
+})
 
- route.get('/characters/:age', (req, res) => {
-    const {age}= req.params
-     res.json({ personajes: { age } })
- })
+route.delete('/characters/:id', async (req, res) => {
+    const { id } = req.params
 
- route.get('/characters/:idMovie', (req, res) => {
-    const {idMovie}= req.params
-     res.json({ personajes: { idMovie} })
- })
- 
- 
+    const personaje = await Personaje.destroy({
+
+        where: {
+            'id': id
+        }
+    }).then(function (rowDeleted) {
+        if (rowDeleted === 1) {
+            res.json({ mensaje: 'Deleted successfully' });
+        }
+        res.json({
+            mensaje: 'No Deleted'
+        });
+    });
+
+    res.json({ personaje })
+})
+
 
 
 module.exports = route;
