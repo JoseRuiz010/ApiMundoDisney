@@ -7,8 +7,8 @@ const route = require('express').Router();
 route.get('/movies', async (req, res) => {
 
     const { order, IdGenero, Titulo } = req.query
-    
-    console.log(params);
+
+
     if (!Titulo & !IdGenero) {
         console.log('====================================');
         console.log('pASEEEE');
@@ -24,13 +24,18 @@ route.get('/movies', async (req, res) => {
         )
         res.json({ allPeliculas })
     } else {
+        let params = {}
+        params = Titulo ? { ...params, Titulo } : params;
+        params = IdGenero ? { ...params, IdGenero } : params
+
         console.log('====================================');
-        console.log('nOOO pASEEEE');
+        console.log('nOOO pASEEEE', params ? true : false);
         console.log('====================================');
         const PersonajesFiltrados = await Pelicula.findAll({
             include: [{ model: Genero }, { model: Personaje }],
             order: [['createdAt', order ? order : 'ASC']],
-            //where: { ...params },
+            where: { ...params },
+
         })
         res.json({ PersonajesFiltrados })
     }
